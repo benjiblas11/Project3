@@ -1,39 +1,87 @@
-let express = require('express');
-let app = express();
-let path = require('path');
-const PORT = process.env.PORT || 3002
+const express = require('express');
+const knex = require('knex');
+const path = require('path');
+const app = express();
+const PORT = 3002;
 
-// grab html form from file 
-// allows to pull JSON data from form 
-app.use(express.urlencoded( {extended: true} )); 
-const knex = require("knex") ({
-  client : "pg",
-  connection : {
-  host : process.env.RDS_HOSTNAME || "awseb-e-dcpssqafyh-stack-awsebrdsdatabase-ofssl7nxdyot.cn6220qmsuba.us-east-1.rds.amazonaws.com",
-  user : process.env.RDS_USERNAME || "ebroot",
-  password : process.env.RDS_PASSWORD || "iloveintex",
-  database : process.env.RDS_DB_NAME || "ebdb",
-  port : process.env.RDS_PORT || 5432,
-  ssl: { require: true, rejectUnauthorized: false } // Fixed line
-  // ssl: process.env.DB_SSL ? {rejectUnauthorized: false } : false  // WRONG LINE 
-}
-})
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "ejs");
-// Serve static files (CSS, images, etc.)
-app.use(express.static(path.join(__dirname, 'public')));
-// Define route for home page
-
-// LOAD THE HOME PAGE
-app.get('/', (req, res) => {
-  res.render('index');  // Renders 'login.ejs' file
+// Knex configuration
+const db = knex({
+  client: 'pg',
+  connection: {
+    host: 'localhost',
+    user: 'your-username', // Replace with your PostgreSQL username
+    password: 'your-password', // Replace with your PostgreSQL password
+    database: 'your-database' // Replace with your PostgreSQL database name
+  }
 });
 
-app.use(express.json()); // CHECK LINE
-// Serve static files (e.g., CSS) if needed
-app.use(express.static('public'));
-// port number, (parameters) => what you want it to do.
+// Middleware for URL-encoded form data
+app.use(express.urlencoded({ extended: true }));
 
+// Middleware to serve static files
+app.use(express.static(path.join(__dirname, 'public')));
 
-// PORT LISTENING-----------------------------------------------------------------------------
-app.listen(PORT, () => console.log('Server started on port ' + PORT));
+// Set EJS as the view engine
+app.set('view engine', 'ejs');
+
+// Route for the home page (root route)
+app.get('/', (req, res) => {
+    res.redirect('/login'); // Or render a homepage like res.render('home');
+});
+
+// Route to show the Sign Up page
+app.get('/signup', (req, res) => {
+    res.render('signup');
+});
+
+// Route to show the Login page
+app.get('/login', (req, res) => {
+    res.render('login');
+});
+
+// Route to show the Movies page
+app.get('/movies', async (req, res) => {
+    try {
+        const movies = await db('movies').select('*'); // Assuming you have a 'movies' table
+        res.render('movies', { movies });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error retrieving movies.');
+    }
+});
+
+// Handle Sign Up form submission
+app.post('/signup', async (req, res) => {
+    const { username, password } = req.body;
+
+    try {
+        await db('users').insert({ username, password }); // Assuming you have a 'users' table
+        res.redirect('/login');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error creating user.');
+    }
+});
+
+// Handle Login form submission
+app.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+
+    try {
+        const user = await db('users').where({ username, password }).first();
+
+        if (user) {
+            res.redirect('/movies');
+        } else {
+            res.send('Invalid credentials');
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error logging in.');
+    }
+});
+
+// Start the server
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});
