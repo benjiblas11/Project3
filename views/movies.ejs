@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top 100 Movies</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Main header -->
+    <div class="header">Top 100 Movies</div>
+
+    <!-- Container for movies and filters -->
+    <div class="container">
+        <!-- Movies section (left side) -->
+        <div class="movies-section" id="movies-section">
+            <!-- JavaScript will insert movie boxes here -->
+            <% for (let i = 1; i <= 100; i++) { %>
+                <div class="movie-box">
+                    <div class="movie-number"><%= i %></div>
+                    <input type="checkbox" class="movie-checkbox">
+                    <img src="https://via.placeholder.com/150" alt="Movie Image">
+                </div>
+            <% } %>
+        </div>
+
+        <!-- Filters section (right side) -->
+        <div class="filters-section">
+            <div class="filter-box">Genre</div>
+            <div class="filter-box">User Rating</div>
+            <div class="filter-box">Decade</div>
+            <div class="filter-box">Length</div>
+            <div class="filter-box">Watched</div>
+            <div class="filter-box">MPAA Rating</div>
+        </div>
+    </div>
+</body>
+</html>

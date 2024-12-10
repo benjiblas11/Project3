@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Your Platform</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <h1>Login</h1>
+            <form action="/login" method="POST">
+                <!-- Username Field -->
+                <input type="text" name="username" class="input-field" placeholder="Username" required>
+                
+                <!-- Password Field -->
+                <input type="password" name="password" class="input-field" placeholder="Password" required>
+                
+                <!-- Submit Button -->
+                <button type="submit" class="submit-btn">Log In</button>
+                
+                <!-- Optional Link -->
+                <p class="signup-link">Don't have an account? <a href="/signup">Sign Up</a></p>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
