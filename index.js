@@ -1,19 +1,25 @@
 const express = require('express');
-const knex = require('knex');
 const path = require('path');
 const app = express();
 const PORT = 3002;
 
 // Knex configuration
-const db = knex({
-  client: 'pg',
-  connection: {
-    host: 'awseb-e-dcpssqafyh-stack-awsebrdsdatabase-ofssl7nxdyot.cn6220qmsuba.us-east-1.rds.amazonaws.com',
-    user: 'ebroot', // Replace with your PostgreSQL username
-    password: 'iloveintex', // Replace with your PostgreSQL password
-    database: 'CB4Udie' // Replace with your PostgreSQL database name
-  }
-});
+app.use(express.urlencoded( {extended: true} )); 
+const knex = require("knex") ({
+  client : "pg",
+  connection : {
+  host : process.env.RDS_HOSTNAME || "awseb-e-dcpssqafyh-stack-awsebrdsdatabase-ofssl7nxdyot.cn6220qmsuba.us-east-1.rds.amazonaws.com",
+  user : process.env.RDS_USERNAME || "ebroot",
+  password : process.env.RDS_PASSWORD || "iloveintex",
+  database : process.env.RDS_DB_NAME || "CB4Udie",
+  port : process.env.RDS_PORT || 5432,
+  ssl: { require: true, rejectUnauthorized: false } // Fixed line
+  // ssl: process.env.DB_SSL ? {rejectUnauthorized: false } : false  // WRONG LINE 
+}
+})
+
+//db = knex
+const db = knex;
 
 // Middleware for URL-encoded form data
 app.use(express.urlencoded({ extended: true }));
@@ -55,7 +61,7 @@ app.post('/signup', async (req, res) => {
     const { username, password } = req.body;
 
     try {
-        await db('users').insert({ username, password }); // Assuming you have a 'users' table
+        await db('user_info').insert({ username, password }); // Assuming you have a 'users' table
         res.redirect('/login');
     } catch (err) {
         console.error(err);
@@ -68,7 +74,7 @@ app.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
     try {
-        const user = await db('users').where({ username, password }).first();
+        const user = await db('user_info').where({ username, password }).first();
 
         if (user) {
             res.redirect('/movies');
