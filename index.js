@@ -172,5 +172,6 @@ app.post('/add_review', async (req, res) => {
 
 // Start the server
 app.listen(PORT, () => {
+    console.log(process.env.RDS_HOSTNAME)
     console.log(`Server is running on http://localhost:${PORT}`);
 });
