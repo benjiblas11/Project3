@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= movie.title %></title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="movie-container">
+        <div class="movie-info">
+            <h1><%= movie.title %></h1>
+            <img src="<%= movie.image_url %>" alt="<%= movie.title %>" class="movie-poster">
+            <p><strong>Rank:</strong> <%= movie.movie_rank %></p>
+            <p><strong>Year:</strong> <%= movie.year %></p>
+            <p><strong>Runtime:</strong> <%= movie.runtime %> minutes</p>
+            <p><strong>Description:</strong> <%= movie.description %></p>
+            <p><strong>Director:</strong> <%= movie.director %></p>
+            <p><strong>Budget:</strong> $<%= movie.budget %></p>
+            <p><strong>Profit:</strong> $<%= movie.profit %></p>
+            <p><strong>MPAA Rating:</strong> <%= movie.mpaa_rating %></p>
+        </div>
+        <div class="user-info">
+            <h2>Your Status</h2>
+            <form action="/update_status" method="POST">
+                <input type="hidden" name="movie_id" value="<%= movie.id %>">
+                <label>
+                    <input type="checkbox" name="watched_status" <%= user.watched_status ? 'checked' : '' %>>
+                    Watched
+                </label>
+                <button type="submit" class="submit-btn">Update Status</button>
+            </form>
+            <h2>User Rating & Review</h2>
+            <% if (user.rating && user.review) { %>
+                <p><strong>Your Rating:</strong> <%= user.rating %>/10</p>
+                <p><strong>Your Review:</strong> <%= user.review %></p>
+                <a href="/edit_review/<%= movie.id %>" class="submit-btn">Edit</a>
+            <% } else { %>
+                <form action="/add_review" method="POST">
+                    <input type="hidden" name="movie_id" value="<%= movie.id %>">
+                    <label for="rating">Rating:</label>
+                    <input type="number" id="rating" name="rating" min="1" max="10" class="input-field">
+                    <label for="review">Review:</label>
+                    <textarea id="review" name="review" class="input-field"></textarea>
+                    <button type="submit" class="submit-btn">Submit</button>
+                </form>
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>
