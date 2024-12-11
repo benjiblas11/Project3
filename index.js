@@ -48,7 +48,7 @@ app.get('/login', (req, res) => {
 // Route to show the Movies page
 app.get('/movies', async (req, res) => {
     try {
-        const movies = await db('movies').select('*'); // Assuming you have a 'movies' table
+        const movies = await db('movie_info').select('*'); // Assuming you have a 'movies' table
         res.render('movies', { movies });
     } catch (err) {
         console.error(err);
