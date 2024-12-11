@@ -11,7 +11,11 @@ const knex = require("knex") ({
   host : process.env.RDS_HOSTNAME || "awseb-e-dcpssqafyh-stack-awsebrdsdatabase-ofssl7nxdyot.cn6220qmsuba.us-east-1.rds.amazonaws.com",
   user : process.env.RDS_USERNAME || "ebroot",
   password : process.env.RDS_PASSWORD || "iloveintex",
+<<<<<<< HEAD
   database : process.env.RDS_DB_NAME || "CB4Udie",
+=======
+  database : "CB4Udie",
+>>>>>>> 07c89f7725ed5c14091e6d7ae22581c1d47034c7
   port : process.env.RDS_PORT || 5432,
   ssl: { require: true, rejectUnauthorized: false } // Fixed line
   // ssl: process.env.DB_SSL ? {rejectUnauthorized: false } : false  // WRONG LINE 
