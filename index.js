@@ -30,6 +30,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Set EJS as the view engine
 app.set('view engine', 'ejs');
 
+// Middleware to ensure authentication
+function ensureAuthenticated(req, res, next) {
+    if (req.session.user_id) {
+        next();
+    } else {
+        res.redirect('/login');
+    }
+}
+
 // Route for the home page (root route)
 app.get('/', (req, res) => {
     res.redirect('/login'); // Or render a homepage like res.render('home');
@@ -77,6 +86,7 @@ app.post('/login', async (req, res) => {
         const user = await db('user_info').where({ username, password }).first();
 
         if (user) {
+            req.session.user_id = user.id; // Save the user's ID in the session
             res.redirect('/movies');
         } else {
             res.send('Invalid credentials');
@@ -96,15 +106,15 @@ app.post('/login', async (req, res) => {
     }
   })();
 
-  // view_movie route
+// view_movie route
   app.get('/view_movie/:id', async (req, res) => {
     const { id } = req.params; // Movie rank is assumed to be the `id`
     const userId = req.session.user_id || 1; // Replace with your actual user management system
-    
+
     try {
         // Fetch movie details from the `movie_info` table
         const movie = await db('movie_info').where({ movie_rank: id }).first();
-        
+
         if (!movie) {
             return res.status(404).send('Movie not found.');
         }
@@ -113,7 +123,7 @@ app.post('/login', async (req, res) => {
         const userInfo = await db('movies_watched')
             .where({ movie_rank: id, user_id: userId })
             .first();
-        
+
         res.render('view_movie', {
             movie,
             user: userInfo || {}, // Pass empty object if no entry exists
