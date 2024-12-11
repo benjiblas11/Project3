@@ -763,6 +763,18 @@ INSERT INTO public.movies_watched (movie_rank, user_id, watched_status, user_rat
 (95, 7, true, 4, 'Good movie with solid performances. The pacing was a bit slow, but the plot kept me interested. Worth watching.'),
 (97, 7, true, 5, 'Incredible movie! The acting, direction, and story were all perfect. Easily one of the best films I’ve seen this year.'),
 (99, 7, true, 3, 'It was fine. The action was enjoyable, but the story didn’t have the impact I was hoping for.');
+
+INSERT INTO public.movies_watched (movie_rank, user_id, watched_status, user_rating, movie_review) 
+VALUES 
+(10, 1, true, 4, 'Really enjoyed this movie! The characters were strong, and the plot had great twists. The pacing was a little slow at times, but overall, a great watch.'),
+(100, 2, true, 5, 'Absolutely loved this movie! The plot was gripping, and the performances were outstanding. I was hooked from start to finish, and the ending was perfect.'),
+(100, 3, true, 5, 'Absolutely loved this movie! The plot was gripping, and the performances were outstanding. I was hooked from start to finish, and the ending was perfect.'),
+(100, 4, true, 5, 'Absolutely loved this movie! The plot was gripping, and the performances were outstanding. I was hooked from start to finish, and the ending was perfect.'),
+(100, 5, true, 5, 'Absolutely loved this movie! The plot was gripping, and the performances were outstanding. I was hooked from start to finish, and the ending was perfect.'),
+(100, 6, true, 5, 'Absolutely loved this movie! The plot was gripping, and the performances were outstanding. I was hooked from start to finish, and the ending was perfect.'),
+(100, 7, true, 5, 'Absolutely loved this movie! The plot was gripping, and the performances were outstanding. I was hooked from start to finish, and the ending was perfect.');
+
+
 ////////////////////////////////////////////////////////
 
 
