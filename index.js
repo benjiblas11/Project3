@@ -8,10 +8,10 @@ const PORT = 3002;
 const db = knex({
   client: 'pg',
   connection: {
-    host: 'localhost',
-    user: 'your-username', // Replace with your PostgreSQL username
-    password: 'your-password', // Replace with your PostgreSQL password
-    database: 'your-database' // Replace with your PostgreSQL database name
+    host: 'awseb-e-dcpssqafyh-stack-awsebrdsdatabase-ofssl7nxdyot.cn6220qmsuba.us-east-1.rds.amazonaws.com',
+    user: 'ebroot', // Replace with your PostgreSQL username
+    password: 'iloveintex', // Replace with your PostgreSQL password
+    database: 'CB4Udie' // Replace with your PostgreSQL database name
   }
 });
 
