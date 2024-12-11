@@ -21,25 +21,61 @@
             <div class="filters">
                 <input type="text" placeholder="Search" class="search-bar" />
                 <select>
-                    <option>Decade</option>
+                    <option>All Decades</option>
+                    <option>40's</option>
+                    <option>50's</option>
+                    <option>60's</option>
+                    <option>70's</option>
+                    <option>80's</option>
+                    <option>90's</option>
+                    <option>2000's</option>
+                    <option>2010's</option>
+                    <option>2020's</option>
                 </select>
                 <select>
-                    <option>Director</option>
+                    <option>All Directors</option>
+                    <option>Bob Persichetti, Peter Ramsey, Rodney Rothman</option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
                 </select>
                 <select>
                     <option>MPAA Rating</option>
                 </select>
                 <label><input type="checkbox"> Unwatched</label>
-                
             </div>
         </div>
-
         <!-- Movies section -->
         <div class="movies-grid" id="movies-section" style="overflow-y: auto; max-height: calc(100vh - 150px);">
             <% if (movie_info.length > 0) { %>
                 <% movie_info.forEach(movie => { %>
                     <div class="movie-card">
-                        <div class="movie-rank"><%= movie.movie_rank %></div>
+                        <div class="movie-rank-circle"><%= movie.movie_rank %></div>
                         <a href="/view_movie/<%= movie.movie_rank %>">
                             <img src="<%= movie.image_url %>" alt="<%= movie.title %>" class="movie-poster">
                         </a>
