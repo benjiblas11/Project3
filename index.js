@@ -81,6 +81,16 @@ app.post('/login', async (req, res) => {
     }
 });
 
+(async () => {
+    try {
+        const result = await knex.raw('SELECT 1+1 AS result'); // Simple query to test connection
+        console.log("Database connected successfully:", result.rows);
+    } catch (error) {
+        console.error("Database connection failed:", error.message);
+    }
+  })();
+
+
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
