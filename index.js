@@ -56,9 +56,12 @@ app.get('/login', (req, res) => {
 
 // Route to show the Movies page
 app.get('/movies', async (req, res) => {
+    const userId = req.query.user_id; // Retrieve user_id from the query parameter
     try {
-        const movie_info = await db('movie_info').select('*').orderBy('movie_rank', 'asc'); // Assuming you have a 'movies' table
-        res.render('movies', { movie_info });
+        const movie_info = await db('movie_info').select('*').orderBy('movie_rank', 'asc');
+        const user_movies = await db('movies_watched').where({ user_id: userId });
+
+        res.render('movies', { movie_info, user_movies });
     } catch (err) {
         console.error(err);
         res.status(500).send('Error retrieving movies.');
@@ -86,7 +89,8 @@ app.post('/login', async (req, res) => {
         const user = await db('user_info').where({ username, password }).first();
 
         if (user) {
-            res.redirect('/movies');
+            // Redirect with user_id as a query parameter
+            res.redirect(`/movies?user_id=${user.user_id}`);
         } else {
             res.send('Invalid credentials');
         }
