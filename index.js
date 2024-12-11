@@ -106,9 +106,9 @@ app.post('/login', async (req, res) => {
   })();
 
 // view_movie route
-  app.get('/view_movie/:id', async (req, res) => {
-    const id  = req.params.id; // Movie rank is assumed to be the `id`
-    const userId = req.session.user_id || 1; // Replace with your actual user management system
+app.get('/view_movie/:id', async (req, res) => {
+    const { id } = req.params; // Movie rank is assumed to be the `id`
+    // const userId = req.session.user_id || 1; // Replace with your actual user management system
 
     try {
         // Fetch movie details from the `movie_info` table
@@ -120,7 +120,8 @@ app.post('/login', async (req, res) => {
 
         // Fetch user-specific data from the `movies_watched` table
         const userInfo = await db('movies_watched')
-            .where({ movie_rank: id, user_id: userId })
+            .where({ movie_rank: id})
+            // .where({ movie_rank: id, user_id: userId })
             .first();
 
         res.render('view_movie', {

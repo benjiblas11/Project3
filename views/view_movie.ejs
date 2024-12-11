@@ -3,40 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= movie.title %></title>
+    <title><%= movie.title %> - Movie Details</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1><%= movie.title %> (<%= movie.year %>)</h1>
-    <img src="<%= movie.image_url %>" alt="<%= movie.title %>" style="width: 200px;">
-    <p><%= movie.description %></p>
-    
-    <h3>Rating: <%= movie.user_rating || 'Not Rated Yet' %></h3>
-    
-    <h4>Your Review</h4>
-    <form action="/add_review" method="POST">
-        <input type="hidden" name="movie_rank" value="<%= movie.movie_rank %>">
-        <div>
-            <label for="user_rating">Rating (1-5):</label>
-            <input type="number" name="user_rating" min="1" max="5" value="<%= user.user_rating || '' %>">
-        </div>
-        <div>
-            <label for="movie_review">Review:</label>
-            <textarea name="movie_review"><%= user.movie_review || '' %></textarea>
-        </div>
-        <button type="submit">Submit Review</button>
-    </form>
+    <!-- Header -->
+    <div class="header">
+        <a href="/movies" class="back-link">Back to Movies</a>
+    </div>
 
-    <h4>Watched Status</h4>
-    <form action="/update_status" method="POST">
-        <input type="hidden" name="movie_rank" value="<%= movie.movie_rank %>">
-        <div>
-            <label for="watched_status">Watched:</label>
-            <input type="checkbox" name="watched_status" <%= user.watched_status ? 'checked' : '' %> />
+    <!-- Movie details section -->
+    <div class="movie-details">
+        <div class="movie-header">
+            <div class="movie-rank">Rank: <%= movie.movie_rank %></div>
+            <h1><%= movie.title %> (<%= movie.year %>)</h1>
         </div>
-        <button type="submit">Update Status</button>
-    </form>
 
-    <br>
-    <a href="/movies">Back to Movies List</a>
+        <!-- Movie poster and description -->
+        <div class="movie-info">
+            <img src="<%= movie.image_url %>" alt="<%= movie.title %>" class="movie-poster">
+            <div class="movie-description">
+                <h3>Description:</h3>
+                <p><%= movie.description %></p>
+            </div>
+        </div>
+
+        <!-- User review section -->
+        <div class="user-review">
+            <h3>Your Review</h3>
+            <form action="/add_review" method="POST">
+                <input type="hidden" name="movie_rank" value="<%= movie.movie_rank %>">
+                <div>
+                    <label for="user_rating">Rating (1-5):</label>
+                    <input type="number" name="user_rating" min="1" max="5" value="<%= user.user_rating || '' %>">
+                </div>
+                <div>
+                    <label for="movie_review">Review:</label>
+                    <textarea name="movie_review"><%= user.movie_review || '' %></textarea>
+                </div>
+                <button type="submit">Submit Review</button>
+            </form>
+        </div>
+
+        <!-- Watched status section -->
+        <div class="watched-status">
+            <h3>Watched Status</h3>
+            <form action="/update_status" method="POST">
+                <input type="hidden" name="movie_rank" value="<%= movie.movie_rank %>">
+                <div>
+                    <label for="watched_status">Watched:</label>
+                    <input type="checkbox" name="watched_status" <%= user.watched_status ? 'checked' : '' %> />
+                </div>
+                <button type="submit">Update Status</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

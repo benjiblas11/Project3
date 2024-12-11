@@ -32,8 +32,8 @@
             <% if (movie_info.length > 0) { %>
                 <% movie_info.forEach(movie => { %>
                     <div class="movie-card">
-                        <div class="movie-rank"><%= movie.rank %></div>
-                        <a href="/view_movie/<%= movie.rank %>">
+                        <div class="movie-rank"><%= movie.movie_rank %></div>
+                        <a href="/view_movie/<%= movie.movie_rank %>">
                             <img src="<%= movie.image_url %>" alt="<%= movie.title %>" class="movie-poster">
                         </a>
                         <h2><%= movie.title %></h2>
