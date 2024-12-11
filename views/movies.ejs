@@ -15,13 +15,22 @@
         <!-- Movies section (left side) -->
         <div class="movies-section" id="movies-section">
             <!-- JavaScript will insert movie boxes here -->
-            <% for (let i = 1; i <= 100; i++) { %>
+
+        <% if (movie_info.length > 0) { %>
+            <% movie_info.forEach(row => { %>
                 <div class="movie-box">
-                    <div class="movie-number"><%= i %></div>
+                    <div class="movie-number"><%= row.movie_rank %></div>
                     <input type="checkbox" class="movie-checkbox">
-                    <img src="https://via.placeholder.com/150" alt="Movie Image">
+                    <label for="poster"> <%= row.title %></label>
+                    <img src="https://via.placeholder.com/150" alt="Movie Image" id="poster">
+                    <form action="/viewReviews/<%= row.movie_rank %>" method="GET" style="display:inline;">
+                        <button type="submit">Edit</button>
+                      </form>
                 </div>
-            <% } %>
+                <% }) %>
+                <% } else { %>
+                  <div >No data available</div>
+                <% } %>
         </div>
 
         <!-- Filters section (right side) -->
