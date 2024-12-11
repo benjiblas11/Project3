@@ -96,6 +96,19 @@ app.post('/login', async (req, res) => {
     }
   })();
 
+  // view_movie page
+  app.get('/view_movie/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const movie = await db('movie_info').where({ id }).first();
+        const user = await db('user_info').where({ movie_id: id }).first(); // Adjust based on schema
+        res.render('view_movie', { movie, user });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error loading movie details.');
+    }
+});
+
 
 // Start the server
 app.listen(PORT, () => {
