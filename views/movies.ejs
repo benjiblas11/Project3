@@ -11,38 +11,42 @@
     <div class="header">Top 100 Movies</div>
 
     <!-- Container for movies and filters -->
-    <div class="container">
-        <!-- Movies section (left side) -->
-        <div class="movies-section" id="movies-section">
-            <!-- JavaScript will insert movie boxes here -->
-
-        <% if (movie_info.length > 0) { %>
-            <% movie_info.forEach(row => { %>
-                <div class="movie-box">
-                    <div class="movie-number"><%= row.movie_rank %></div>
-                    <input type="checkbox" class="movie-checkbox">
-                    <label for="poster"> <%= row.title %></label>
-                    <a href="/view_movie/<%= row.movie_rank %>">
-                    <img src="https://via.placeholder.com/150" alt="<%= row.title %>" id="poster">
-                    </a>
-                    <!-- <form action="/view_movie/<%= row.movie_rank %>" method="GET" style="display:inline;">
-                        <button type="submit">View Movie</button>
-                      </form> -->
-                </div>
-                <% }) %>
-                <% } else { %>
-                  <div >No data available</div>
-                <% } %>
+    <div class="movies-page">
+        <!-- Filters section (top) -->
+        <div class="movies-header">
+            <h1>Movies</h1>
+            <div class="filters">
+                <input type="text" placeholder="Search" class="search-bar" />
+                <select>
+                    <option>All Years</option>
+                </select>
+                <select>
+                    <option>All Genres</option>
+                </select>
+                <label><input type="checkbox">Unwatched Only</label>
+            </div>
         </div>
 
-        <!-- Filters section (right side) -->
-        <div class="filters-section">
-            <div class="filter-box">Genre</div>
-            <div class="filter-box">User Rating</div>
-            <div class="filter-box">Decade</div>
-            <div class="filter-box">Length</div>
-            <div class="filter-box">Watched</div>
-            <div class="filter-box">MPAA Rating</div>
+        <!-- Movies section -->
+        <div class="movies-grid" id="movies-section" style="overflow-y: auto; max-height: calc(100vh - 150px);">
+            <% if (movie_info.length > 0) { %>
+                <% movie_info.forEach(movie => { %>
+                    <div class="movie-card">
+                        <div class="movie-rank"><%= movie.rank %></div>
+                        <a href="/view_movie/<%= movie.rank %>">
+                            <img src="<%= movie.image_url %>" alt="<%= movie.title %>" class="movie-poster">
+                        </a>
+                        <h2><%= movie.title %></h2>
+                        <div class="movie-rating">
+                            <span class="rating-star">★</span>
+                            <%= movie.rating %>
+                        </div>
+                        <a href="<%= movie.imdb_link %>" class="movie-link" target="_blank">View on IMDb</a>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <div>No data available</div>
+            <% } %>
         </div>
     </div>
 </body>

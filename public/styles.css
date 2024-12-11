@@ -126,3 +126,113 @@ body {
 .user-info .submit-btn {
     margin-top: 10px;
 }
+
+/* Page Layout */
+.movies-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+/* Header Styling */
+.movies-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.movies-header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-bar {
+    padding: 8px;
+    border: 2px solid #0046c8;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 1em;
+}
+
+select, input[type="checkbox"] {
+    padding: 8px;
+    margin: 0 5px;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+/* Grid Layout */
+.movies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Movie Card Styling */
+.movie-card {
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    padding: 15px;
+    position: relative;
+}
+
+.movie-rank {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #0046c8;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 50%;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.movie-poster {
+    max-width: 100%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.movie-card h2 {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+.movie-rating {
+    font-size: 1.2em;
+    color: gold;
+    margin-bottom: 10px;
+}
+
+.rating-star {
+    color: gold;
+    font-size: 1.5em;
+}
+
+.movie-link {
+    display: inline-block;
+    text-decoration: none;
+    color: #00bfff;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.movie-link:hover {
+    text-decoration: underline;
+}
