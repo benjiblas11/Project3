@@ -107,12 +107,12 @@ app.post('/login', async (req, res) => {
 
 // view_movie route
     app.get('/view_movie/:id', async (req, res) => {
-        const { id } = req.params; // Movie rank is assumed to be the `id`
+        const  id  = req.params.id; // Movie rank is assumed to be the `id`
         // const userId = req.session.user_id || 1; // Replace with your actual user management system
 
     try {
         // Fetch movie details from the `movie_info` table
-        const movie = await db('movie_info').where({ movie_rank: id }).first();
+        const movie = await db('movie_info').where('movie_rank', id ).first();
 
         if (!movie) {
             return res.status(404).send('Movie not found.');
@@ -121,7 +121,7 @@ app.post('/login', async (req, res) => {
         // Fetch user-specific data from the `movies_watched` table
         const userInfo = await db('movies_watched')
             // .where({ movie_rank: id, user_id: userId })
-            .where({ movie_rank: id})
+            .where( 'movie_rank', id)
             .first();
 
         res.render('view_movie', {
@@ -136,7 +136,7 @@ app.post('/login', async (req, res) => {
 
 app.post('/update_status', async (req, res) => {
     const { movie_rank, watched_status } = req.body;
-    const userId = req.session.user_id || 1; // Replace with your user management logic
+    // const userId = req.session.user_id || 1; // Replace with your user management logic
 
     try {
         // Update the watched status
@@ -154,7 +154,7 @@ app.post('/update_status', async (req, res) => {
 
 app.post('/add_review', async (req, res) => {
     const { movie_rank, user_rating, movie_review } = req.body;
-    const userId = req.session.user_id || 1; // Replace with your user management logic
+    // const userId = req.session.user_id || 1; // Replace with your user management logic
 
     try {
         // Add or update the user's review and rating
@@ -169,6 +169,8 @@ app.post('/add_review', async (req, res) => {
         res.status(500).send('Error adding or editing review.');
     }
 });
+
+
 
 
 // Start the server

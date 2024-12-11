@@ -4,7 +4,178 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= movie.title %> - Movie Details</title>
-    <link rel="stylesheet" href="view_movie.css"> <!-- Corrected link to your new CSS file -->
+    <style>
+        /* Reset margin and padding for all elements */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body styling: Black to Blue Ombre Background */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #000000, #0046c8); /* Black to blue gradient */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white; /* Ensures the text is white for better visibility */
+        }
+
+        /* Container for movie details */
+        .movie-details {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            color: white;
+            margin: 20px;
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent dark background */
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Movie header */
+        .movie-header {
+            margin-bottom: 20px;
+        }
+
+        .movie-rank {
+            font-size: 1.2em;
+            background-color: #0046c8;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        /* Movie title and year */
+        .movie-details h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        /* Movie poster and description */
+        .movie-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .movie-poster {
+            max-width: 300px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .movie-description {
+            font-size: 1.2em;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        /* User review form styling */
+        .user-review {
+            margin-top: 30px;
+            width: 80%;
+            text-align: center;
+        }
+
+        .user-review h3 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+
+        .user-review form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .user-review input,
+        .user-review textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 2px solid #0046c8;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 1.1em;
+        }
+
+        .user-review textarea {
+            height: 100px;
+        }
+
+        .user-review button {
+            padding: 12px;
+            background-color: #0046c8;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .user-review button:hover {
+            background-color: #003c99; /* Darker blue on hover */
+        }
+
+        /* Watched status section */
+        .watched-status {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .watched-status h3 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+
+        .watched-status form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .watched-status input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        .watched-status button {
+            padding: 12px;
+            background-color: #0046c8;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .watched-status button:hover {
+            background-color: #003c99;
+        }
+
+        /* Back link */
+        .back-link {
+            text-decoration: none;
+            color: #00bfff;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <!-- Header -->
