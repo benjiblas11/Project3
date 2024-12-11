@@ -12,15 +12,17 @@
             box-sizing: border-box;
         }
 
-        /* Body styling: Black to Blue Ombre Background */
+        /* Body styling: Static background that covers the entire page */
         body {
             font-family: Arial, sans-serif;
             background: linear-gradient(to bottom, #000000, #0046c8); /* Black to blue gradient */
             height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start; /* Aligns items at the top */
             color: white; /* Ensures the text is white for better visibility */
+            background-attachment: fixed; /* Ensures the background stays fixed */
+            margin-top: 20px; /* Adds margin at the top */
         }
 
         /* Container for movie details */
@@ -35,9 +37,11 @@
             border-radius: 10px;
             padding: 30px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            width: 100%;
         }
 
-        /* Movie header */
+        /* Movie title */
         .movie-header {
             margin-bottom: 20px;
         }
@@ -47,7 +51,6 @@
             background-color: #0046c8;
             color: white;
             padding: 5px 10px;
-            border-radius: 50%;
             margin-bottom: 10px;
         }
 
@@ -63,10 +66,12 @@
             flex-direction: column;
             align-items: center;
             margin-bottom: 20px;
+            width: 100%;
         }
 
         .movie-poster {
-            max-width: 300px;
+            width: 100%;
+            max-width: 600px; /* Ensure the image fits within the card */
             border-radius: 10px;
             margin-bottom: 20px;
         }
@@ -75,13 +80,15 @@
             font-size: 1.2em;
             line-height: 1.5;
             margin-bottom: 20px;
+            text-align: left;
+            width: 100%;
         }
 
         /* User review form styling */
         .user-review {
             margin-top: 30px;
             width: 80%;
-            text-align: center;
+            text-align: left; /* Align the text to the left */
         }
 
         .user-review h3 {
@@ -92,12 +99,13 @@
         .user-review form {
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: flex-start; /* Align items to the start (left) */
         }
 
         .user-review input,
         .user-review textarea {
-            width: 100%;
+            width: 300%; /* Triple the width */
+            max-width: 100%; /* Ensure it doesn't overflow */
             padding: 12px;
             margin: 10px 0;
             border-radius: 5px;
@@ -130,7 +138,8 @@
         /* Watched status section */
         .watched-status {
             margin-top: 30px;
-            text-align: center;
+            width: 80%;
+            text-align: left; /* Align the text to the left */
         }
 
         .watched-status h3 {
@@ -141,10 +150,11 @@
         .watched-status form {
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: flex-start; /* Align items to the start (left) */
         }
 
         .watched-status input[type="checkbox"] {
+            transform: scale(1.5); /* Increase the size of the checkbox */
             margin-right: 10px;
         }
 
@@ -170,23 +180,35 @@
             color: #00bfff;
             font-size: 1.2em;
             margin-bottom: 20px;
+            display: flex;
+            align-items: center;
         }
 
         .back-link:hover {
             text-decoration: underline;
         }
+
+        /* Icon for the back link */
+        .back-link .icon {
+            margin-right: 5px;
+        }
+
     </style>
+    <!-- Load Font Awesome for the back icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
     <!-- Header -->
     <div class="header">
-        <a href="/movies" class="back-link">Back to Movies</a>
+        <a href="/movies" class="back-link">
+            <i class="fas fa-arrow-left icon"></i>Back
+        </a>
     </div>
 
     <!-- Movie details section -->
     <div class="movie-details">
         <div class="movie-header">
-            <div class="movie-rank">Rank: <%= movie.movie_rank %></div>
+            <div class="movie-rank" style="border-radius: 5px;">Rank: <%= movie.movie_rank %></div>
             <h1><%= movie.title %> (<%= movie.year %>)</h1>
         </div>
 
@@ -222,7 +244,7 @@
             <form action="/update_status" method="POST">
                 <input type="hidden" name="movie_rank" value="<%= movie.movie_rank %>">
                 <div>
-                    <label for="watched_status">Watched:</label>
+                    <label for="watched_status"></label>
                     <input type="checkbox" name="watched_status" <%= user.watched_status ? 'checked' : '' %> />
                 </div>
                 <button type="submit">Update Status</button>
