@@ -34,6 +34,7 @@
                 </select>
                 <select>
                     <option>All Directors</option>
+<<<<<<< HEAD
                     <option>Akira Kurosawa</option>
                     <option>Alfred Hitchcock</option>
                     <option>Andrew Stanton</option>
@@ -99,6 +100,37 @@
                     <option>T.J. Gnanavel</option>
                     <option>Todd Phillips</option>
                     <option>Tony Kaye</option>
+=======
+                    <option>Bob Persichetti, Peter Ramsey, Rodney Rothman</option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+>>>>>>> 9c6c7e22e1bce2fb6cb52ff8b57378b88a3dfd0b
                 </select>
                 <select>
                     <option> ALL MPAA Rating</option>
@@ -110,17 +142,15 @@
                     <option>Approved</option>
                 </select>
                 <label><input type="checkbox"> Unwatched</label>
-                
             </div>
         </div>
-
         <!-- Movies section -->
         <div class="movies-grid" id="movies-section" style="overflow-y: auto; max-height: calc(100vh - 150px);">
             <% if (movie_info.length > 0) { %>
                 <% movie_info.forEach(movie => { %>
                     <div class="movie-card">
-                        <div class="movie-rank-circle"><%= movie.movie_rank %></div>
-                        <a href="/view_movie/<%= movie.rank %>">
+                        <div class="movie-rank"><%= movie.movie_rank %></div>
+                        <a href="/view_movie/<%= movie.movie_rank %>">
                             <img src="<%= movie.image_url %>" alt="<%= movie.title %>" class="movie-poster">
                         </a>
                         <h2><%= movie.title %></h2>
