@@ -5,11 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Top 100 Movies</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .movie-checkbox input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+        }
+    </style>
 </head>
 <body>
-    <!-- Main header -->
-    <div class="header">Top 100 Movies</div>
-
     <!-- Container for movies and filters -->
     <div class="movies-page">
         <!-- Filters section (top) -->
@@ -18,12 +21,16 @@
             <div class="filters">
                 <input type="text" placeholder="Search" class="search-bar" />
                 <select>
-                    <option>All Years</option>
+                    <option>Decade</option>
                 </select>
                 <select>
-                    <option>All Genres</option>
+                    <option>Director</option>
                 </select>
-                <label><input type="checkbox">Unwatched Only</label>
+                <select>
+                    <option>MPAA Rating</option>
+                </select>
+                <label><input type="checkbox"> Unwatched</label>
+                
             </div>
         </div>
 
@@ -32,16 +39,19 @@
             <% if (movie_info.length > 0) { %>
                 <% movie_info.forEach(movie => { %>
                     <div class="movie-card">
-                        <div class="movie-rank"><%= movie.rank %></div>
+                        <div class="movie-rank-circle"><%= movie.movie_rank %></div>
                         <a href="/view_movie/<%= movie.rank %>">
                             <img src="<%= movie.image_url %>" alt="<%= movie.title %>" class="movie-poster">
                         </a>
                         <h2><%= movie.title %></h2>
-                        <div class="movie-rating">
-                            <span class="rating-star">★</span>
-                            <%= movie.rating %>
+                        <div class="movie-checkbox">
+                            <form action="/update_status" method="POST">
+                                <input type="hidden" name="movie_rank" value="<%= movie.rank %>">
+                                <label>
+                                    <input type="checkbox" name="watched_status" <%= movie.watched_status ? 'checked' : '' %>>
+                                </label>
+                            </form>
                         </div>
-                        <a href="<%= movie.imdb_link %>" class="movie-link" target="_blank">View on IMDb</a>
                     </div>
                 <% }); %>
             <% } else { %>
