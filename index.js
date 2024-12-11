@@ -86,7 +86,6 @@ app.post('/login', async (req, res) => {
         const user = await db('user_info').where({ username, password }).first();
 
         if (user) {
-            req.session.user_id = user.id; // Save the user's ID in the session
             res.redirect('/movies');
         } else {
             res.send('Invalid credentials');
