@@ -124,7 +124,7 @@ app.post('/login', async (req, res) => {
             .where({ movie_rank: id})
             .first();
 
-        res.render('/view_movie/:id', {
+        res.render('view_movie', {
             movie,
             user: userInfo || {}, // Pass empty object if no entry exists
         });
