@@ -107,7 +107,7 @@ app.post('/login', async (req, res) => {
 
 // view_movie route
   app.get('/view_movie/:id', async (req, res) => {
-    const { id } = req.params; // Movie rank is assumed to be the `id`
+    const id  = req.params.id; // Movie rank is assumed to be the `id`
     const userId = req.session.user_id || 1; // Replace with your actual user management system
 
     try {
