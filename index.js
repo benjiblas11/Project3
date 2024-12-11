@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-const PORT = 3002;
+const PORT = process.env.PORT || 3000;
 
 // Knex configuration
 app.use(express.urlencoded( {extended: true} )); 
@@ -29,6 +29,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Set EJS as the view engine
 app.set('view engine', 'ejs');
+
+// Middleware to ensure authentication
+function ensureAuthenticated(req, res, next) {
+    if (req.session.user_id) {
+        next();
+    } else {
+        res.redirect('/login');
+    }
+}
 
 // Route for the home page (root route)
 app.get('/', (req, res) => {
@@ -77,6 +86,7 @@ app.post('/login', async (req, res) => {
         const user = await db('user_info').where({ username, password }).first();
 
         if (user) {
+            req.session.user_id = user.id; // Save the user's ID in the session
             res.redirect('/movies');
         } else {
             res.send('Invalid credentials');
@@ -96,16 +106,67 @@ app.post('/login', async (req, res) => {
     }
   })();
 
-  // view_movie page
+// view_movie route
   app.get('/view_movie/:id', async (req, res) => {
-    const { id } = req.params;
+    const { id } = req.params; // Movie rank is assumed to be the `id`
+    const userId = req.session.user_id || 1; // Replace with your actual user management system
+
     try {
-        const movie = await db('movie_info').where({ id }).first();
-        const user = await db('user_info').where({ movie_id: id }).first(); // Adjust based on schema
-        res.render('view_movie', { movie, user });
+        // Fetch movie details from the `movie_info` table
+        const movie = await db('movie_info').where({ movie_rank: id }).first();
+
+        if (!movie) {
+            return res.status(404).send('Movie not found.');
+        }
+
+        // Fetch user-specific data from the `movies_watched` table
+        const userInfo = await db('movies_watched')
+            .where({ movie_rank: id, user_id: userId })
+            .first();
+
+        res.render('view_movie', {
+            movie,
+            user: userInfo || {}, // Pass empty object if no entry exists
+        });
     } catch (err) {
         console.error(err);
         res.status(500).send('Error loading movie details.');
+    }
+});
+
+app.post('/update_status', async (req, res) => {
+    const { movie_rank, watched_status } = req.body;
+    const userId = req.session.user_id || 1; // Replace with your user management logic
+
+    try {
+        // Update the watched status
+        await db('movies_watched')
+            .insert({ movie_rank, user_id: userId, watched_status: watched_status === 'on' })
+            .onConflict(['movie_rank', 'user_id'])
+            .merge();
+
+        res.redirect(`/view_movie/${movie_rank}`);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error updating watched status.');
+    }
+});
+
+app.post('/add_review', async (req, res) => {
+    const { movie_rank, user_rating, movie_review } = req.body;
+    const userId = req.session.user_id || 1; // Replace with your user management logic
+
+    try {
+        // Add or update the user's review and rating
+        await db('movies_watched')
+            .insert({ movie_rank, user_id: userId, user_rating, movie_review })
+            .onConflict(['movie_rank', 'user_id'])
+            .merge();
+
+        res.redirect(`/view_movie/${movie_rank}`);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error adding or editing review.');
     }
 });
 
