@@ -170,7 +170,7 @@ app.post('/add_review', async (req, res) => {
     try {
         // Add or update the user's review and rating
         await db('movies_watched')
-            .insert({ 
+            .update({ 
                 movie_rank: movie_rank,
                 user_id: parseInt(userId),
                 watched_status: watched_status || false,
