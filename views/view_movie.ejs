@@ -4,18 +4,230 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= movie.title %> - Movie Details</title>
-    <link rel="stylesheet" href="/public/view_movie.css"> <!-- Corrected link to your new CSS file -->
+    <style>
+        /* Reset margin and padding for all elements */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body styling: Static background that covers the entire page */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #000000, #0046c8); /* Black to blue gradient */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Aligns items at the top */
+            color: white; /* Ensures the text is white for better visibility */
+            background-attachment: fixed; /* Ensures the background stays fixed */
+            margin-top: 20px; /* Adds margin at the top */
+        }
+
+        /* Container for movie details */
+        .movie-details {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            color: white;
+            margin: 20px;
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent dark background */
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            width: 100%;
+        }
+
+        /* Movie title */
+        .movie-header {
+            margin-bottom: 20px;
+        }
+
+        .movie-rank {
+            font-size: 1.2em;
+            background-color: #0046c8;
+            color: white;
+            padding: 5px 10px;
+            margin-bottom: 10px;
+        }
+
+        /* Movie title and year */
+        .movie-details h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        /* Movie poster and description */
+        .movie-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .movie-poster {
+            width: 100%;
+            max-width: 600px; /* Ensure the image fits within the card */
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .movie-description {
+            font-size: 1.2em;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            text-align: left;
+            width: 100%;
+        }
+
+        /* User review form styling */
+        .user-review {
+            margin-top: 30px;
+            width: 80%;
+            text-align: left; /* Align the text to the left */
+        }
+
+        .user-review h3 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+
+        .user-review form {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Align items to the start (left) */
+        }
+
+        .user-review input,
+        .user-review textarea {
+            width: 300%; /* Triple the width */
+            max-width: 100%; /* Ensure it doesn't overflow */
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 2px solid #0046c8;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 1.1em;
+        }
+
+        .user-review textarea {
+            height: 100px;
+        }
+
+        .user-review button {
+            padding: 12px;
+            background-color: #0046c8;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .user-review button:hover {
+            background-color: #003c99; /* Darker blue on hover */
+        }
+
+        /* Watched status section */
+        .watched-status {
+            margin-top: 30px;
+            width: 80%;
+            text-align: left; /* Align the text to the left */
+        }
+
+        .watched-status h3 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+
+        .watched-status form {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Align items to the start (left) */
+        }
+
+        .watched-status input[type="checkbox"] {
+            transform: scale(1.5); /* Increase the size of the checkbox */
+            margin-right: 10px;
+        }
+
+        .watched-status button {
+            padding: 12px;
+            background-color: #0046c8;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .watched-status button:hover {
+            background-color: #003c99;
+        }
+
+        /* Back link */
+        .back-link {
+            text-decoration: none;
+            color: #00bfff;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Icon for the back link */
+        .back-link .icon {
+            margin-right: 5px;
+        }
+
+        /* Reviews section */
+        .reviews-section {
+            margin-top: 30px;
+            width: 80%;
+            text-align: left;
+        }
+
+        .reviews-section h3 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+
+        .review {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+    </style>
+    <!-- Load Font Awesome for the back icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
     <!-- Header -->
     <div class="header">
-        <a href="/movies" class="back-link">Back to Movies</a>
+        <a href="/movies" class="back-link">
+            <i class="fas fa-arrow-left icon"></i>Back
+        </a>
     </div>
 
     <!-- Movie details section -->
     <div class="movie-details">
         <div class="movie-header">
-            <div class="movie-rank">Rank: <%= movie.movie_rank %></div>
+            <div class="movie-rank" style="border-radius: 5px;">Rank: <%= movie.movie_rank %></div>
             <h1><%= movie.title %> (<%= movie.year %>)</h1>
         </div>
 
@@ -57,6 +269,5 @@
                 <button type="submit">Update Status</button>
             </form>
         </div>
-    </div>
-</body>
-</html>
+
+
