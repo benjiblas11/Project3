@@ -10,10 +10,6 @@
             width: 20px;
             height: 20px;
         }
-        .movies-header h1 a {
-            color: inherit; /* Inherit text color */
-            text-decoration: none; /* Remove underline */
-        }
     </style>
 </head>
 <body>
@@ -161,7 +157,9 @@
                         <div class="movie-checkbox">
                             <form action="/update_status" method="POST">
                                 <input type="hidden" name="movie_rank" value="<%= movie.rank %>">
-
+                                <label>
+                                    <input type="checkbox" name="watched_status" <%= movie.watched_status ? 'checked' : '' %>>
+                                </label>
                             </form>
                         </div>
                     </div>

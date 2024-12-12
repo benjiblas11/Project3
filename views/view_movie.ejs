@@ -137,7 +137,7 @@
 
         /* Watched status section */
         .watched-status {
-            margin-top: 30px;
+            margin-top: 0px;
             width: 80%;
             text-align: left; /* Align the text to the left */
         }
@@ -177,7 +177,7 @@
         /* Back link */
         .back-link {
             text-decoration: none;
-            color: #00bfff;
+            color: #ffffff;
             font-size: 1.2em;
             margin-bottom: 20px;
             display: flex;
@@ -218,6 +218,10 @@
             resize: vertical; /* Allow resizing only vertically (optional) */
             }
 
+            input[type="checkbox"] {
+            width: 25px; /* Adjust size as needed */
+            height: 25px; /* Adjust size as needed */
+        }
         /* Reviews section */ .reviews-section { margin-top: 30px; width: 80%; text-align: left; } .reviews-section h3 { font-size: 1.8em; margin-bottom: 10px; } .review { background-color: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 5px; margin-bottom: 10px; }
 
     </style>
@@ -248,36 +252,47 @@
             </div>
         </div>
 
+        <!-- Additional movie details -->
+        <div class="movie-description">
+            <h3>Details:</h3>
+            <br>
+            <p><strong>Director:</strong> <%= movie.director %></p>
+            <br>
+            <p><strong>Runtime:</strong> <%= movie.runtime %> minutes</p>
+            <br>
+            <p><strong>MPAA Rating:</strong> <%= movie.mpaa_rating %></p>
+            <br>
+            <p><strong>Budget:</strong> <%= new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(movie.budget) %></p>
+            <br>
+            <p><strong>Profit:</strong> <%= new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(movie.profit) %></p>
+
+            <br>
+        </div>
+
         <!-- User review section -->
         <div class="user-review">
             <h3>Your Review</h3>
             <form action="/add_review" method="POST">
                 <input type="hidden" name="movie_rank" value="<%= movie.movie_rank %>">
-                <div>
+                <div>  
+                    <br><br>
+                    <label for="watched_status">Watched Status</label>
+                        <div>
+                            <input type="checkbox" name="watched_status" <%= user.watched_status ? 'checked' : '' %> />
+                        </div>
                     <label for="user_rating">Rating (1-5):</label>
                     <input type="number" name="user_rating" min="1" max="5" value="<%= user.user_rating || '' %>">
                 </div>
-            <label for="movie_review">Review:</label>
+            <label for="movie_review">Leave a Review!</label>
             <textarea name="movie_review"><%= user.movie_review || '' %></textarea>
-                
-
-                <div class="watched-status">
-                    <h3>Watched Status</h3>
-                    
-                    <!-- <input type="hidden" name="movie_rank" value="<%= movie.movie_rank %>"> -->
-                    <div>
-                        <label for="watched_status">Watched:</label>
-                        <input type="checkbox" name="watched_status" <%= user.watched_status ? 'checked' : '' %> />
-                    </div>
-
-                <button type="submit">Submit Review</button>    
-                    
-                </div>
-
+                    <span class="watched-status">
+                        <button type="submit">Submit Review</button>    
+                    </span>   
+                    <br><br>
             </form>
         </div>
         <div class="reviews-section"> 
-            <h3>Reviews</h3> 
+            <h3>Read Others' Reviews</h3> 
             <% if (reviews && reviews.length > 0) { %> 
                 <% reviews.forEach(function(review) 
                 { %> <div class="review"> 
