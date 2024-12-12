@@ -17,7 +17,7 @@
     <div class="movies-page">
         <!-- Filters section (top) -->
         <div class="movies-header">
-            <h1><a href="/movies">Movies</a></h1>
+            <h1>Movies</a></h1>
             <div class="filters">
 
             <!--SEARCH BAR-->
@@ -157,9 +157,6 @@
                         <div class="movie-checkbox">
                             <form action="/update_status" method="POST">
                                 <input type="hidden" name="movie_rank" value="<%= movie.rank %>">
-                                <label>
-                                    <input type="checkbox" name="watched_status" <%= movie.watched_status ? 'checked' : '' %>>
-                                </label>
                             </form>
                         </div>
                     </div>
