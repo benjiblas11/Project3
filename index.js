@@ -130,14 +130,14 @@ app.post('/login', async (req, res) => {
         }
 
         // Fetch user-specific data from the `movies_watched` table
-        const userInfo = await db('movies_watched')
+        const user = await db('movies_watched')
             // .where({ movie_rank: id, user_id: userId })
-            .where( 'movie_rank', id)
+            .where( 'user_id', userId).where('movie_rank', id)
             .first();
 
         res.render('view_movie', {
             movie,
-            user: userInfo || {}, // Pass empty object if no entry exists
+            user, // Pass empty object if no entry exists
         });
     } catch (err) {
         console.error(err);
