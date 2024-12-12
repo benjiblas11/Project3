@@ -137,7 +137,7 @@
 
         /* Watched status section */
         .watched-status {
-            margin-top: 30px;
+            margin-top: 0px;
             width: 80%;
             text-align: left; /* Align the text to the left */
         }
@@ -218,6 +218,10 @@
             resize: vertical; /* Allow resizing only vertically (optional) */
             }
 
+            input[type="checkbox"] {
+            width: 25px; /* Adjust size as needed */
+            height: 25px; /* Adjust size as needed */
+        }
         /* Reviews section */ .reviews-section { margin-top: 30px; width: 80%; text-align: left; } .reviews-section h3 { font-size: 1.8em; margin-bottom: 10px; } .review { background-color: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 5px; margin-bottom: 10px; }
 
     </style>
@@ -253,27 +257,21 @@
             <h3>Your Review</h3>
             <form action="/add_review" method="POST">
                 <input type="hidden" name="movie_rank" value="<%= movie.movie_rank %>">
-                <div>
+                <div>  
+                    <br><br>
+                    <label for="watched_status">Watched Status</label>
+                        <div>
+                            <input type="checkbox" name="watched_status" <%= user.watched_status ? 'checked' : '' %> />
+                        </div>
                     <label for="user_rating">Rating (1-5):</label>
                     <input type="number" name="user_rating" min="1" max="5" value="<%= user.user_rating || '' %>">
                 </div>
-            <label for="movie_review">Review:</label>
+            <label for="movie_review">Leave a Review!</label>
             <textarea name="movie_review"><%= user.movie_review || '' %></textarea>
-                
-
-                <div class="watched-status">
-                    <h3>Watched Status</h3>
-                    
-                    <!-- <input type="hidden" name="movie_rank" value="<%= movie.movie_rank %>"> -->
-                    <div>
-                        <label for="watched_status">Watched:</label>
-                        <input type="checkbox" name="watched_status" <%= user.watched_status ? 'checked' : '' %> />
-                    </div>
-
-                <button type="submit">Submit Review</button>    
-                    
-                </div>
-
+                    <span class="watched-status">
+                        <button type="submit">Submit Review</button>    
+                    </span>   
+                    <br><br>
             </form>
         </div>
         <div class="reviews-section"> 

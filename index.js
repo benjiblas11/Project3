@@ -140,7 +140,8 @@ app.post('/login', async (req, res) => {
         .select('movie_review') 
         .where('movie_rank', id)
         .where('watched_status', true)
-        .limit(3); 
+        .whereNot('user_id', userId);
+        // .limit(3); 
 
         res.render('view_movie', { 
         movie, 
