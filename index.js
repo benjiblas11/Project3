@@ -60,20 +60,58 @@ app.get('/login', (req, res) => {
 
 // Route to show the Movies page
 app.get('/movies', async (req, res) => {
-    if (userId == 0) {
-     userId = req.query.user_id;} // Retrieve user_id from the query parameter
-    
-    
-     try {
+    if (!req.query.user_id) {
+        return res.redirect('/login'); // Redirect to login if user_id is missing
+    }
+
+    userId = req.query.user_id; // Set userId from query parameter
+
+    try {
         const movie_info = await db('movie_info').select('*').orderBy('movie_rank', 'asc');
         const user_movies = await db('movies_watched').where({ user_id: userId });
 
-        res.render('movies', { movie_info, user_movies });
+        res.render('movies', { movie_info, user_movies, userId, unwatched: req.query.unwatched });
     } catch (err) {
         console.error(err);
         res.status(500).send('Error retrieving movies.');
     }
 });
+
+// FILTER BY UNWATCHED
+app.get('/filterunwatched', async (req, res) => {
+    const unwatched = req.query.unwatched === 'true';
+    const userId = parseInt(req.query.user_id); // Ensure user_id is an integer
+
+    if (!userId) {
+        return res.redirect('/login'); // Redirect to login if user_id is missing
+    }
+
+    try {
+        let result;
+        if (unwatched) {
+            result = await knex('movie_info')
+                .select('movie_info.*')
+                .leftJoin('movies_watched', function() {
+                    this.on('movie_info.movie_rank', '=', 'movies_watched.movie_rank')
+                        .andOn('movies_watched.user_id', '=', userId); // Use integer userId
+                })
+                .where(function() {
+                    this.where('movies_watched.watched_status', false)
+                        .orWhere('movies_watched.watched_status', null);
+                });
+        } else {
+            result = await knex('movie_info').select('*');
+        }
+
+        console.log(result); // Log the result to inspect it
+        res.render('movies', { movie_info: result, userId, unwatched: req.query.unwatched });
+    } catch (err) {
+        console.error('Error executing query', err.stack);
+        res.status(500).send('Server Error');
+    }
+});
+
+
 
 // Handle Sign Up form submission
 app.post('/signup', async (req, res) => {
@@ -176,87 +214,134 @@ app.post('/add_review', async (req, res) => {
 });
 
 // SEARCH MOVIES ---------------------------------------------------------------------------------------------------------
-app.get('/search', async (req, res) => { 
-  const query = req.query.query;
-  try {
-    const result = await knex('movie_info')
-      .select('*')
-      .where('title', 'ILIKE', `%${query}%`);
-    
-    console.log(result); // Log the result to inspect it
-    res.render('movies', { movie_info: result });
-  } catch (err) {
-    console.error('Error executing query', err.stack);
-    res.status(500).send('Server Error');
-  }
+app.get('/search', async (req, res) => {
+    const query = req.query.query;
+    const userId = req.query.user_id; // Retrieve userId from query parameters
+    const unwatched = req.query.unwatched; // Retrieve unwatched value (if any)
+  
+    if (!userId) {
+      return res.redirect('/login'); // Redirect to login if user_id is missing
+    }
+  
+    try {
+      // Search logic based on the query
+      const result = await knex('movie_info').select('*').where('title', 'ILIKE', `%${query}%`);
+      
+      // Pass userId and unwatched to the view
+      res.render('movies', { movie_info: result, userId, unwatched });
+    } catch (err) {
+      console.error('Error executing search query', err.stack);
+      res.status(500).send('Server Error');
+    }
 });
 
 // FILTER BY DIRECTOR ---------------------------------------------------------------------------------------------------------
 app.get('/filterdir', async (req, res) => { 
-  const director = req.query.director;
-  try {
-    let result;
-    if (director === 'all') {
-      result = await knex('movie_info').select('*');
-    } else {
-      result = await knex('movie_info')
-        .select('*')
-        .where('director', 'ILIKE', `%${director}%`);
+    const director = req.query.director;
+    const userId = req.query.user_id; // Retrieve userId from query parameters
+
+    if (!userId) {
+        return res.redirect('/login'); // Redirect to login if user_id is missing
     }
-    
-    console.log(result); // Log the result to inspect it
-    res.render('movies', { movie_info: result });
-  } catch (err) {
-    console.error('Error executing query', err.stack);
-    res.status(500).send('Server Error');
-  }
+
+    try {
+        let result;
+        if (director === 'all') {
+            result = await knex('movie_info').select('*');
+        } else {
+            result = await knex('movie_info')
+                .select('*')
+                .where('director', 'ILIKE', `%${director}%`);
+        }
+        
+        console.log(result); // Log the result to inspect it
+        res.render('movies', {
+            movie_info: result,
+            userId, // Pass userId to the EJS template
+            unwatched: req.query.unwatched || '', // Ensure unwatched is passed even if undefined
+        });
+    } catch (err) {
+        console.error('Error executing query', err.stack);
+        res.status(500).send('Server Error');
+    }
 });
 
 
-// FILTER BY RATING ---------------------------------------------------------------------------------------------------------
+
 app.get('/filterrat', async (req, res) => { 
-  const mpaa_rating = req.query.mpaa_rating;
-  try {
-    let result;
-    if (mpaa_rating === 'all') {
-      result = await knex('movie_info').select('*');
-    } else {
-      result = await knex('movie_info')
-        .select('*')
-        .where('mpaa_rating', '=', mpaa_rating);
+    const mpaa_rating = req.query.mpaa_rating;
+    const userId = req.query.user_id; // Retrieve userId from query parameters
+    const unwatched = req.query.unwatched; // Retrieve unwatched from query parameters
+  
+    if (!userId) {
+        return res.redirect('/login'); // Redirect to login if user_id is missing
     }
-    
-    console.log(result); // Log the result to inspect it
-    res.render('movies', { movie_info: result });
-  } catch (err) {
-    console.error('Error executing query', err.stack);
-    res.status(500).send('Server Error');
-  }
-});
+  
+    try {
+      let result;
+      if (mpaa_rating === 'all') {
+        result = await knex('movie_info').select('*');
+      } else {
+        result = await knex('movie_info')
+          .select('*')
+          .where('mpaa_rating', '=', mpaa_rating);
+      }
+  
+      console.log(result); // Log the result to inspect it
+      res.render('movies', { movie_info: result, userId, unwatched }); // Pass userId and unwatched to the view
+    } catch (err) {
+      console.error('Error executing query', err.stack);
+      res.status(500).send('Server Error');
+    }
+  });
+  
 
 
 // FILTER BY DECADE ---------------------------------------------------------------------------------------------------------
-app.get('/filterdec', async (req, res) => { 
-  const year = req.query.year;
-  try {
-    let result;
-    if (year === 'all') {
-      result = await knex('movie_info').select('*');
-    } else {
-      const startYear = parseInt(year, 10);
-      const endYear = startYear + 9;
-      result = await knex('movie_info')
-        .select('*')
-        .whereBetween('year', [startYear, endYear]);
+app.get('/filterdec', async (req, res) => {
+    const unwatched = req.query.unwatched === 'true';  // Ensure 'unwatched' is boolean
+    const userId = parseInt(req.query.user_id); // Ensure user_id is an integer
+
+    if (!userId) {
+        return res.redirect('/login'); // Redirect to login if user_id is missing
     }
-    
-    console.log(result); // Log the result to inspect it
-    res.render('movies', { movie_info: result });
-  } catch (err) {
-    console.error('Error executing query', err.stack);
-    res.status(500).send('Server Error');
-  }
+
+    try {
+        let result;
+        const year = req.query.year || 'all';  // Default to 'all' if no year is selected
+
+        if (unwatched) {
+            result = await knex('movie_info')
+                .select('movie_info.*')
+                .leftJoin('movies_watched', function() {
+                    this.on('movie_info.movie_rank', '=', 'movies_watched.movie_rank')
+                        .andOn('movies_watched.user_id', '=', userId); // Use integer userId
+                })
+                .where(function() {
+                    this.where('movies_watched.watched_status', false)
+                        .orWhere('movies_watched.watched_status', null);
+                });
+        } else {
+            result = await knex('movie_info').select('*');
+        }
+
+        // Filter by decade if a specific year is selected
+        if (year !== 'all') {
+            result = result.filter(movie => movie.year >= parseInt(year) && movie.year < parseInt(year) + 10);
+        }
+
+        res.render('movies', { 
+            movie_info: result, 
+            userId, 
+            unwatched: req.query.unwatched || ''  // Ensure unwatched is passed as an empty string if not defined
+        });
+    } catch (err) {
+        console.error('Error executing query', err.stack);
+        res.status(500).send('Server Error');
+    }
 });
+
+  
 
 //Test
 

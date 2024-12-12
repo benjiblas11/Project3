@@ -10,6 +10,10 @@
             width: 20px;
             height: 20px;
         }
+        .movies-header h1 a {
+            color: inherit; /* Inherit text color */
+            text-decoration: none; /* Remove underline */
+        }
     </style>
 </head>
 <body>
@@ -17,17 +21,20 @@
     <div class="movies-page">
         <!-- Filters section (top) -->
         <div class="movies-header">
-            <h1>Movies</h1>
+            <h1><a href="/movies">Movies</a></h1>
             <div class="filters">
 
             <!--SEARCH BAR-->
             <form method="GET" action="/search">
-            <input type="text" class="search-bar" name="query" placeholder="Search..." required>
-            <!-- <button class="search-btn" type="submit">Search</button> -->
+                <input type="text" class="search-bar" name="query" placeholder="Search..." required>
+                <input type="hidden" name="user_id" value="<%= userId %>">  <!-- Ensure user_id is passed -->
+                <!-- <button class="search-btn" type="submit">Search</button> -->
             </form>
+            
 
                 <!--DECADE FILTER -->
                 <form id="decade-filter-form" method="GET" action="/filterdec">
+                    <input type="hidden" name="user_id" value="<%= userId %>"> <!-- Ensure user_id is passed -->
                     <select id="decade-filter" name="year" onchange="this.form.submit()">
                         <option value="all">All Decades</option>
                         <option value="1940">40's</option>
@@ -44,7 +51,8 @@
 
                 <!--DIRECTOR FILTER -->
                 <form id="director-filter-form" method="GET" action="/filterdir">
-                    <select id="director-filter" name="director" onchange="this.form.submit()">
+                    <input type="hidden" name="user_id" value="<%= userId %>"> <!-- Ensure user_id is passed -->
+                    <select name="director" id="director" onchange="this.form.submit()">
                         <option value="all">All Directors</option>
                         <option value="Akira Kurosawa">Akira Kurosawa</option>
                         <option value="Alfred Hitchcock">Alfred Hitchcock</option>
@@ -117,8 +125,9 @@
                 
                 <!-- RATING FILTER -->
                 <form id="rating-filter-form" method="GET" action="/filterrat">
+                    <input type="hidden" name="user_id" value="<%= userId %>">  <!-- Ensure user_id is passed -->
                     <select id="mpaa-rating-filter" name="mpaa_rating" onchange="this.form.submit()">
-                        <option value="all">ALL MPAA Ratings</option>
+                        <option value="all">All MPAA Ratings</option>
                         <option value="G">G</option>
                         <option value="PG">PG</option>
                         <option value="PG-13">PG-13</option>
@@ -129,9 +138,16 @@
                 </form>
                 
 
-                <label><input type="checkbox"> Unwatched</label>
+            <!-- UNWATCHED FILTER -->
+            <form id="unwatched-filter-form" method="GET" action="/filterunwatched">
+                <input type="hidden" name="user_id" value="<%= userId %>">
+                <label>
+                    <input type="checkbox" name="unwatched" value="true" <%= unwatched === 'true' ? 'checked' : '' %> onchange="this.form.submit()"> Unwatched
+                </label>
+            </form>
             </div>
         </div>
+
         <!-- Movies section -->
         <div class="movies-grid" id="movies-section" style="overflow-y: auto; max-height: calc(100vh - 150px);">
             <% if (movie_info.length > 0) { %>
@@ -145,9 +161,7 @@
                         <div class="movie-checkbox">
                             <form action="/update_status" method="POST">
                                 <input type="hidden" name="movie_rank" value="<%= movie.rank %>">
-                                <label>
-                                    <input type="checkbox" name="watched_status" <%= movie.watched_status ? 'checked' : '' %>>
-                                </label>
+
                             </form>
                         </div>
                     </div>
