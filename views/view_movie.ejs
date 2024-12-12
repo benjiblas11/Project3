@@ -253,11 +253,25 @@
                     <label for="movie_review">Review:</label>
                     <textarea name="movie_review"><%= user.movie_review || '' %></textarea>
                 </div>
-                <button type="submit">Submit Review</button>
+                
+
+                <div class="watched-status">
+                    <h3>Watched Status</h3>
+                    
+                    <!-- <input type="hidden" name="movie_rank" value="<%= movie.movie_rank %>"> -->
+                    <div>
+                        <label for="watched_status">Watched:</label>
+                        <input type="checkbox" name="watched_status" <%= user.watched_status ? 'checked' : '' %> />
+                    </div>
+
+                <button type="submit">Submit Review</button>    
+                    
+                </div>
+
             </form>
         </div>
 
-        <!-- Watched status section -->
+        <!-- Watched status section
         <div class="watched-status">
             <h3>Watched Status</h3>
             <form action="/update_status" method="POST">
@@ -268,6 +282,7 @@
                 </div>
                 <button type="submit">Update Status</button>
             </form>
-        </div>
-
-
+        </div> -->
+    </div>
+</body>
+</html>

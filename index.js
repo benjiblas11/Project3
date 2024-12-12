@@ -1,4 +1,5 @@
 const express = require('express');
+const { watchFile } = require('fs');
 const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -20,6 +21,9 @@ const knex = require("knex") ({
 
 //db = knex
 const db = knex;
+
+// pleeeaaasse work
+let userId = 0;
 
 // Middleware for URL-encoded form data
 app.use(express.urlencoded({ extended: true }));
@@ -56,8 +60,11 @@ app.get('/login', (req, res) => {
 
 // Route to show the Movies page
 app.get('/movies', async (req, res) => {
-    const userId = req.query.user_id; // Retrieve user_id from the query parameter
-    try {
+    if (userId == 0) {
+     userId = req.query.user_id;} // Retrieve user_id from the query parameter
+    
+    
+     try {
         const movie_info = await db('movie_info').select('*').orderBy('movie_rank', 'asc');
         const user_movies = await db('movies_watched').where({ user_id: userId });
 
@@ -157,13 +164,18 @@ app.post('/update_status', async (req, res) => {
 });
 
 app.post('/add_review', async (req, res) => {
-    const { movie_rank, user_rating, movie_review } = req.body;
+    const { movie_rank, watched_status, user_rating, movie_review } = req.body;
     // const userId = req.session.user_id || 1; // Replace with your user management logic
 
     try {
         // Add or update the user's review and rating
         await db('movies_watched')
-            .insert({ movie_rank, user_id: userId, user_rating, movie_review })
+            .insert({ 
+                movie_rank: movie_rank,
+                user_id: parseInt(userId),
+                watched_status: watched_status || false,
+                user_rating: user_rating,
+                movie_review: movie_review })
             .onConflict(['movie_rank', 'user_id'])
             .merge();
 
