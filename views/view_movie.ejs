@@ -252,6 +252,23 @@
             </div>
         </div>
 
+        <!-- Additional movie details -->
+        <div class="movie-description">
+            <h3>Details:</h3>
+            <br>
+            <p><strong>Director:</strong> <%= movie.director %></p>
+            <br>
+            <p><strong>Runtime:</strong> <%= movie.runtime %> minutes</p>
+            <br>
+            <p><strong>MPAA Rating:</strong> <%= movie.mpaa_rating %></p>
+            <br>
+            <p><strong>Budget:</strong> <%= new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(movie.budget) %></p>
+            <br>
+            <p><strong>Profit:</strong> <%= new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(movie.profit) %></p>
+
+            <br>
+        </div>
+
         <!-- User review section -->
         <div class="user-review">
             <h3>Your Review</h3>
