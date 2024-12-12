@@ -235,6 +235,28 @@ app.get('/filterrat', async (req, res) => {
 });
 
 
+// FILTER BY DECADE ---------------------------------------------------------------------------------------------------------
+app.get('/filterdec', async (req, res) => { 
+  const year = req.query.year;
+  try {
+    let result;
+    if (year === 'all') {
+      result = await knex('movie_info').select('*');
+    } else {
+      const startYear = parseInt(year, 10);
+      const endYear = startYear + 9;
+      result = await knex('movie_info')
+        .select('*')
+        .whereBetween('year', [startYear, endYear]);
+    }
+    
+    console.log(result); // Log the result to inspect it
+    res.render('movies', { movie_info: result });
+  } catch (err) {
+    console.error('Error executing query', err.stack);
+    res.status(500).send('Server Error');
+  }
+});
 
 
 // Start the server
