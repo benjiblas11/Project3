@@ -165,24 +165,22 @@ app.post('/login', async (req, res) => {
 
 app.post('/add_review', async (req, res) => {
     const { movie_rank, watched_status, user_rating, movie_review } = req.body;
-    // const userId = req.session.user_id || 1; // Replace with your user management logic
+    
 
     try {
-        // Add or update the user's review and rating
+        // Update the user's review and rating
         await db('movies_watched')
-            .update({ 
-                movie_rank: movie_rank,
-                user_id: parseInt(userId),
+            .where({ movie_rank: movie_rank, user_id: parseInt(userId) })
+            .update({
                 watched_status: watched_status || false,
                 user_rating: user_rating,
-                movie_review: movie_review });
-            // .onConflict(['movie_rank', 'user_id'])
-            // .merge();
+                movie_review: movie_review
+            });
 
         res.redirect(`/view_movie/${movie_rank}`);
     } catch (err) {
         console.error(err);
-        res.status(500).send('Error adding or editing review.');
+        res.status(500).send('Error updating review.');
     }
 });
 
