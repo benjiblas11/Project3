@@ -221,34 +221,27 @@ app.get('/filterdir', async (req, res) => {
   }
 });
 
-// // Route to get movie details along with reviews
-// app.get('/movie/:rank', async (req, res) => {
-//     try {
-//         const movieRank = req.params.rank;
-//         const movieQuery = 'SELECT * FROM movie_info WHERE movie_rank = $1';
-//         const movieResult = await pool.query(movieQuery, [movieRank]);
 
-//         const reviewsQuery = `
-//             SELECT movie_review
-//             FROM movies_watched
-//             WHERE movie_rank = $1
-//             LIMIT 3;
-//         `;
-//         const reviewsResult = await pool.query(reviewsQuery, [movieRank]);
-
-//         if (movieResult.rows.length > 0) {
-//             res.render('movieDetails', {
-//                 movie: movieResult.rows[0],
-//                 reviews: reviewsResult.rows
-//             });
-//         } else {
-//             res.status(404).send('Movie not found');
-//         }
-//     } catch (err) {
-//         console.error(err.message);
-//         res.status(500).send('Server Error');
-//     }
-// });
+// FILTER BY RATING ---------------------------------------------------------------------------------------------------------
+app.get('/filterrat', async (req, res) => { 
+  const mpaa_rating = req.query.mpaa_rating;
+  try {
+    let result;
+    if (mpaa_rating === 'all') {
+      result = await knex('movie_info').select('*');
+    } else {
+      result = await knex('movie_info')
+        .select('*')
+        .where('mpaa_rating', '=', mpaa_rating);
+    }
+    
+    console.log(result); // Log the result to inspect it
+    res.render('movies', { movie_info: result });
+  } catch (err) {
+    console.error('Error executing query', err.stack);
+    res.status(500).send('Server Error');
+  }
+});
 
 
 
