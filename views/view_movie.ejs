@@ -212,6 +212,12 @@
             margin-bottom: 10px;
         }
 
+        textarea {
+            width: 1500px; /* Adjust as needed */
+            height: 300px; /* Adjust as needed */
+            resize: vertical; /* Allow resizing only vertically (optional) */
+            }
+
         /* Reviews section */ .reviews-section { margin-top: 30px; width: 80%; text-align: left; } .reviews-section h3 { font-size: 1.8em; margin-bottom: 10px; } .review { background-color: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 5px; margin-bottom: 10px; }
 
     </style>
@@ -251,10 +257,8 @@
                     <label for="user_rating">Rating (1-5):</label>
                     <input type="number" name="user_rating" min="1" max="5" value="<%= user.user_rating || '' %>">
                 </div>
-                <div>
-                    <label for="movie_review">Review:</label>
-                    <textarea name="movie_review"><%= user.movie_review || '' %></textarea>
-                </div>
+            <label for="movie_review">Review:</label>
+            <textarea name="movie_review"><%= user.movie_review || '' %></textarea>
                 
 
                 <div class="watched-status">
