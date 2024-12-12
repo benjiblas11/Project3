@@ -202,6 +202,26 @@ app.get('/search', async (req, res) => {
   }
 });
 
+// FILTER BY DIRECTOR ---------------------------------------------------------------------------------------------------------
+app.get('/filterdir', async (req, res) => { 
+  const director = req.query.director;
+  try {
+    let result;
+    if (director === 'all') {
+      result = await knex('movie_info').select('*');
+    } else {
+      result = await knex('movie_info')
+        .select('*')
+        .where('director', 'ILIKE', `%${director}%`);
+    }
+    
+    console.log(result); // Log the result to inspect it
+    res.render('movies', { movie_info: result });
+  } catch (err) {
+    console.error('Error executing query', err.stack);
+    res.status(500).send('Server Error');
+  }
+});
 
 // // Route to get movie details along with reviews
 // app.get('/movie/:rank', async (req, res) => {
