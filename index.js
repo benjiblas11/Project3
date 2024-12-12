@@ -135,33 +135,24 @@ app.post('/login', async (req, res) => {
             .where( 'user_id', userId).where('movie_rank', id)
             .first();
 
-        res.render('view_movie', {
-            movie,
-            user, // Pass empty object if no entry exists
+        // Fetch reviews for the movie 
+        const reviews = await db('movies_watched') 
+        .select('movie_review') 
+        .where('movie_rank', id)
+        .where('watched_status', true)
+        .limit(3); 
+
+        res.render('view_movie', { 
+        movie, 
+        user, // Pass empty object if no entry exists 
+        reviews // Pass reviews to the EJS file 
         });
+        
     } catch (err) {
         console.error(err);
         res.status(500).send('Error loading movie details.');
     }
 });
-
-// app.post('/update_status', async (req, res) => {
-//     const { movie_rank, watched_status } = req.body;
-//     // const userId = req.session.user_id || 1; // Replace with your user management logic
-
-//     try {
-//         // Update the watched status
-//         await db('movies_watched')
-//             .insert({ movie_rank, user_id: userId, watched_status: watched_status === 'on' })
-//             .onConflict(['movie_rank', 'user_id'])
-//             .merge();
-
-//         res.redirect(`/view_movie/${movie_rank}`);
-//     } catch (err) {
-//         console.error(err);
-//         res.status(500).send('Error updating watched status.');
-//     }
-// });
 
 app.post('/add_review', async (req, res) => {
     const { movie_rank, watched_status, user_rating, movie_review } = req.body;
@@ -220,38 +211,6 @@ app.get('/filterdir', async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
-
-// // Route to get movie details along with reviews
-// app.get('/movie/:rank', async (req, res) => {
-//     try {
-//         const movieRank = req.params.rank;
-//         const movieQuery = 'SELECT * FROM movie_info WHERE movie_rank = $1';
-//         const movieResult = await pool.query(movieQuery, [movieRank]);
-
-//         const reviewsQuery = `
-//             SELECT movie_review
-//             FROM movies_watched
-//             WHERE movie_rank = $1
-//             LIMIT 3;
-//         `;
-//         const reviewsResult = await pool.query(reviewsQuery, [movieRank]);
-
-//         if (movieResult.rows.length > 0) {
-//             res.render('movieDetails', {
-//                 movie: movieResult.rows[0],
-//                 reviews: reviewsResult.rows
-//             });
-//         } else {
-//             res.status(404).send('Movie not found');
-//         }
-//     } catch (err) {
-//         console.error(err.message);
-//         res.status(500).send('Server Error');
-//     }
-// });
-
-
-
 
 // Start the server
 app.listen(PORT, () => {
