@@ -170,6 +170,21 @@ app.post('/add_review', async (req, res) => {
     }
 });
 
+// SEARCH MOVIES ---------------------------------------------------------------------------------------------------------
+app.get('/search', async (req, res) => { 
+  const query = req.query.query;
+  try {
+    const result = await knex('movie_info')
+      .select('*')
+      .where('title', 'ILIKE', `%${query}%`);
+    
+    console.log(result); // Log the result to inspect it
+    res.render('movies', { movie_info: result });
+  } catch (err) {
+    console.error('Error executing query', err.stack);
+    res.status(500).send('Server Error');
+  }
+});
 
 // Start the server
 app.listen(PORT, () => {
