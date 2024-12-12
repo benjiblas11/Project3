@@ -193,6 +193,25 @@
             margin-right: 5px;
         }
 
+        /* Reviews section */
+        .reviews-section {
+            margin-top: 30px;
+            width: 80%;
+            text-align: left;
+        }
+
+        .reviews-section h3 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+
+        .review {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
     </style>
     <!-- Load Font Awesome for the back icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -244,12 +263,11 @@
             <form action="/update_status" method="POST">
                 <input type="hidden" name="movie_rank" value="<%= movie.movie_rank %>">
                 <div>
-                    <label for="watched_status"></label>
+                    <label for="watched_status">Watched:</label>
                     <input type="checkbox" name="watched_status" <%= user.watched_status ? 'checked' : '' %> />
                 </div>
                 <button type="submit">Update Status</button>
             </form>
         </div>
-    </div>
-</body>
-</html>
+
+

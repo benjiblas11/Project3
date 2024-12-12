@@ -176,6 +176,37 @@ app.post('/add_review', async (req, res) => {
 
 
 
+// // Route to get movie details along with reviews
+// app.get('/movie/:rank', async (req, res) => {
+//     try {
+//         const movieRank = req.params.rank;
+//         const movieQuery = 'SELECT * FROM movie_info WHERE movie_rank = $1';
+//         const movieResult = await pool.query(movieQuery, [movieRank]);
+
+//         const reviewsQuery = `
+//             SELECT movie_review
+//             FROM movies_watched
+//             WHERE movie_rank = $1
+//             LIMIT 3;
+//         `;
+//         const reviewsResult = await pool.query(reviewsQuery, [movieRank]);
+
+//         if (movieResult.rows.length > 0) {
+//             res.render('movieDetails', {
+//                 movie: movieResult.rows[0],
+//                 reviews: reviewsResult.rows
+//             });
+//         } else {
+//             res.status(404).send('Movie not found');
+//         }
+//     } catch (err) {
+//         console.error(err.message);
+//         res.status(500).send('Server Error');
+//     }
+// });
+
+
+
 
 // Start the server
 app.listen(PORT, () => {
