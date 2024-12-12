@@ -145,23 +145,23 @@ app.post('/login', async (req, res) => {
     }
 });
 
-app.post('/update_status', async (req, res) => {
-    const { movie_rank, watched_status } = req.body;
-    // const userId = req.session.user_id || 1; // Replace with your user management logic
+// app.post('/update_status', async (req, res) => {
+//     const { movie_rank, watched_status } = req.body;
+//     // const userId = req.session.user_id || 1; // Replace with your user management logic
 
-    try {
-        // Update the watched status
-        await db('movies_watched')
-            .insert({ movie_rank, user_id: userId, watched_status: watched_status === 'on' })
-            .onConflict(['movie_rank', 'user_id'])
-            .merge();
+//     try {
+//         // Update the watched status
+//         await db('movies_watched')
+//             .insert({ movie_rank, user_id: userId, watched_status: watched_status === 'on' })
+//             .onConflict(['movie_rank', 'user_id'])
+//             .merge();
 
-        res.redirect(`/view_movie/${movie_rank}`);
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Error updating watched status.');
-    }
-});
+//         res.redirect(`/view_movie/${movie_rank}`);
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).send('Error updating watched status.');
+//     }
+// });
 
 app.post('/add_review', async (req, res) => {
     const { movie_rank, watched_status, user_rating, movie_review } = req.body;
@@ -175,9 +175,9 @@ app.post('/add_review', async (req, res) => {
                 user_id: parseInt(userId),
                 watched_status: watched_status || false,
                 user_rating: user_rating,
-                movie_review: movie_review })
-            .onConflict(['movie_rank', 'user_id'])
-            .merge();
+                movie_review: movie_review });
+            // .onConflict(['movie_rank', 'user_id'])
+            // .merge();
 
         res.redirect(`/view_movie/${movie_rank}`);
     } catch (err) {
