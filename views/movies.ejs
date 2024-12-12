@@ -19,96 +19,108 @@
         <div class="movies-header">
             <h1>Movies</h1>
             <div class="filters">
-                <input type="text" placeholder="Search" class="search-bar" />
-                <select>
-                    <option>All Decades</option>
-                    <option>40's</option>
-                    <option>50's</option>
-                    <option>60's</option>
-                    <option>70's</option>
-                    <option>80's</option>
-                    <option>90's</option>
-                    <option>2000's</option>
-                    <option>2010's</option>
-                    <option>2020's</option>
+
+            <form method="GET" action="/search">
+            <input type="text" name="query" placeholder="Search..." required>
+            <button type="submit">Search</button>
+            </form>
+
+                <!--DECADE FILTER -->
+                <select id="decade-filter">
+                    <option value="all">All Decades</option>
+                    <option value="40s">40's</option>
+                    <option value="50s">50's</option>
+                    <option value="60s">60's</option>
+                    <option value="70s">70's</option>
+                    <option value="80s">80's</option>
+                    <option value="90s">90's</option>
+                    <option value="2000s">2000's</option>
+                    <option value="2010s">2010's</option>
+                    <option value="2020s">2020's</option>
                 </select>
-                <select>
-                    <option>All Directors</option>
-                    <option>Akira Kurosawa</option>
-                    <option>Alfred Hitchcock</option>
-                    <option>Andrew Stanton</option>
-                    <option>Anthony Russo, Joe Russo</option>
-                    <option>Billy Wilder</option>
-                    <option>Bob Persichetti, Peter Ramsey, Rodney Rothman</option>
-                    <option>Bong Joon Ho</option>
-                    <option>Brian De Palma</option>
-                    <option>Bryan Singer</option>
-                    <option>Charles Chaplin</option>
-                    <option>Charlie Chaplin</option>
-                    <option>Christopher Nolan</option>
-                    <option>Damien Chazelle</option>
-                    <option>Darren Aronofsky</option>
-                    <option>David Fincher</option>
-                    <option>David Lean</option>
-                    <option>Elem Klimov</option>
-                    <option>Fernando Meirelles, Kátia Lund</option>
-                    <option>Florian Henckel von Donnersmarck</option>
-                    <option>Francis Ford Coppola</option>
-                    <option>Frank Capra</option>
-                    <option>Frank Darabont</option>
-                    <option>George Lucas</option>
-                    <option>Giuseppe Tornatore</option>
-                    <option>Gus Van Sant</option>
-                    <option>Hayao Miyazaki</option>
-                    <option>Irvin Kershner</option>
-                    <option>Isao Takahata</option>
-                    <option>James Cameron</option>
-                    <option>John Lasseter</option>
-                    <option>Jonathan Demme</option>
-                    <option>Joseph Kosinski</option>
-                    <option>Lana Wachowski, Lilly Wachowski</option>
-                    <option>Lee Unkrich, Adrian Molina</option>
-                    <option>Luc Besson</option>
-                    <option>Makoto Shinkai</option>
-                    <option>Martin Scorsese</option>
-                    <option>Masaki Kobayashi</option>
-                    <option>Mel Gibson</option>
-                    <option>Michael Curtiz</option>
-                    <option>Michael Mann</option>
-                    <option>Michel Gondry</option>
-                    <option>Milos Forman</option>
-                    <option>Nadine Labaki</option>
-                    <option>Olivier Nakache, Éric Toledano</option>
-                    <option>Park Chan-wook</option>
-                    <option>Peter Jackson</option>
-                    <option>Quentin Tarantino</option>
-                    <option>Rajkumar Hirani</option>
-                    <option>Richard Marquand</option>
-                    <option>Ridley Scott</option>
-                    <option>Roberto Benigni</option>
-                    <option>Robert Zemeckis</option>
-                    <option>Roger Allers, Rob Minkoff</option>
-                    <option>Roman Polanski</option>
-                    <option>Sam Mendes</option>
-                    <option>Sergio Leone</option>
-                    <option>Sidney Lumet</option>
-                    <option>Stanley Kubrick</option>
-                    <option>Steven Spielberg</option>
-                    <option>Thomas Kail</option>
-                    <option>Thomas Vinterberg</option>
-                    <option>T.J. Gnanavel</option>
-                    <option>Todd Phillips</option>
-                    <option>Tony Kaye</option>
+
+                <!--DIRECTOR FILTER -->
+                <select id="director-filter">
+                    <option value="all">All Directors</option>
+                    <option value="Akira Kurosawa">Akira Kurosawa</option>
+                    <option value="Alfred Hitchcock">Alfred Hitchcock</option>
+                    <option value="Andrew Stanton">Andrew Stanton</option>
+                    <option value="Anthony Russo, Joe Russo">Anthony Russo, Joe Russo</option>
+                    <option value="Billy Wilder">Billy Wilder</option>
+                    <option value="Bob Persichetti, Peter Ramsey, Rodney Rothman">Bob Persichetti, Peter Ramsey, Rodney Rothman</option>
+                    <option value="Bong Joon Ho">Bong Joon Ho</option>
+                    <option value="Brian De Palma">Brian De Palma</option>
+                    <option value="Bryan Singer">Bryan Singer</option>
+                    <option value="Charles Chaplin">Charles Chaplin</option>
+                    <option value="Charlie Chaplin">Charlie Chaplin</option>
+                    <option value="Christopher Nolan">Christopher Nolan</option>
+                    <option value="Damien Chazelle">Damien Chazelle</option>
+                    <option value="Darren Aronofsky">Darren Aronofsky</option>
+                    <option value="David Fincher">David Fincher</option>
+                    <option value="David Lean">David Lean</option>
+                    <option value="Elem Klimov">Elem Klimov</option>
+                    <option value="Fernando Meirelles, Kátia Lund">Fernando Meirelles, Kátia Lund</option>
+                    <option value="Florian Henckel von Donnersmarck">Florian Henckel von Donnersmarck</option>
+                    <option value="Francis Ford Coppola">Francis Ford Coppola</option>
+                    <option value="Frank Capra">Frank Capra</option>
+                    <option value="Frank Darabont">Frank Darabont</option>
+                    <option value="George Lucas">George Lucas</option>
+                    <option value="Giuseppe Tornatore">Giuseppe Tornatore</option>
+                    <option value="Gus Van Sant">Gus Van Sant</option>
+                    <option value="Hayao Miyazaki">Hayao Miyazaki</option>
+                    <option value="Irvin Kershner">Irvin Kershner</option>
+                    <option value="Isao Takahata">Isao Takahata</option>
+                    <option value="James Cameron">James Cameron</option>
+                    <option value="John Lasseter">John Lasseter</option>
+                    <option value="Jonathan Demme">Jonathan Demme</option>
+                    <option value="Joseph Kosinski">Joseph Kosinski</option>
+                    <option value="Lana Wachowski, Lilly Wachowski">Lana Wachowski, Lilly Wachowski</option>
+                    <option value="Lee Unkrich, Adrian Molina">Lee Unkrich, Adrian Molina</option>
+                    <option value="Luc Besson">Luc Besson</option>
+                    <option value="Makoto Shinkai">Makoto Shinkai</option>
+                    <option value="Martin Scorsese">Martin Scorsese</option>
+                    <option value="Masaki Kobayashi">Masaki Kobayashi</option>
+                    <option value="Mel Gibson">Mel Gibson</option>
+                    <option value="Michael Curtiz">Michael Curtiz</option>
+                    <option value="Michael Mann">Michael Mann</option>
+                    <option value="Michel Gondry">Michel Gondry</option>
+                    <option value="Milos Forman">Milos Forman</option>
+                    <option value="Nadine Labaki">Nadine Labaki</option>
+                    <option value="Olivier Nakache, Éric Toledano">Olivier Nakache, Éric Toledano</option>
+                    <option value="Park Chan-wook">Park Chan-wook</option>
+                    <option value="Peter Jackson">Peter Jackson</option>
+                    <option value="Quentin Tarantino">Quentin Tarantino</option>
+                    <option value="Rajkumar Hirani">Rajkumar Hirani</option>
+                    <option value="Richard Marquand">Richard Marquand</option>
+                    <option value="Ridley Scott">Ridley Scott</option>
+                    <option value="Roberto Benigni">Roberto Benigni</option>
+                    <option value="Robert Zemeckis">Robert Zemeckis</option>
+                    <option value="Roger Allers, Rob Minkoff">Roger Allers, Rob Minkoff</option>
+                    <option value="Roman Polanski">Roman Polanski</option>
+                    <option value="Sam Mendes">Sam Mendes</option>
+                    <option value="Sergio Leone">Sergio Leone</option>
+                    <option value="Sidney Lumet">Sidney Lumet</option>
+                    <option value="Stanley Kubrick">Stanley Kubrick</option>
+                    <option value="Steven Spielberg">Steven Spielberg</option>
+                    <option value="Thomas Kail">Thomas Kail</option>
+                    <option value="Thomas Vinterberg">Thomas Vinterberg</option>
+                    <option value="T.J. Gnanavel">T.J. Gnanavel</option>
+                    <option value="Todd Phillips">Todd Phillips</option>
+                    <option value="Tony Kaye">Tony Kaye</option>
                 </select>
-                <select>
-                    <option> ALL MPAA Rating</option>
-                    <option>G</option>
-                    <option>PG</option>
-                    <option>PG-13</option>
-                    <option>R</option>
-                    <option>NR</option>
-                    <option>Approved</option>
+                
+                <!--RATING FILTER -->
+                <select id="mpaa-rating-filter">
+                    <option value="all">ALL MPAA Rating</option>
+                    <option value="G">G</option>
+                    <option value="PG">PG</option>
+                    <option value="PG-13">PG-13</option>
+                    <option value="R">R</option>
+                    <option value="NR">NR</option>
+                    <option value="Approved">Approved</option>
                 </select>
+                
+
                 <label><input type="checkbox"> Unwatched</label>
             </div>
         </div>
@@ -133,7 +145,7 @@
                     </div>
                 <% }); %>
             <% } else { %>
-                <div>No data available</div>
+                <div>No movies available</div>
             <% } %>
         </div>
     </div>
