@@ -113,16 +113,18 @@
                 </form>
 
                 
-                <!--RATING FILTER -->
-                <select id="mpaa-rating-filter">
-                    <option value="ALL">ALL MPAA Rating</option>
-                    <option value="G">G</option>
-                    <option value="PG">PG</option>
-                    <option value="PG-13">PG-13</option>
-                    <option value="R">R</option>
-                    <option value="NR">NR</option>
-                    <option value="Approved">Approved</option>
-                </select>
+                <!-- RATING FILTER -->
+                <form id="rating-filter-form" method="GET" action="/filterrat">
+                    <select id="mpaa-rating-filter" name="mpaa_rating" onchange="this.form.submit()">
+                        <option value="all">ALL MPAA Ratings</option>
+                        <option value="G">G</option>
+                        <option value="PG">PG</option>
+                        <option value="PG-13">PG-13</option>
+                        <option value="R">R</option>
+                        <option value="NR">NR</option>
+                        <option value="Approved">Approved</option>
+                    </select>
+                </form>
                 
 
                 <label><input type="checkbox"> Unwatched</label>

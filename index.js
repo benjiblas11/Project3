@@ -212,6 +212,31 @@ app.get('/filterdir', async (req, res) => {
   }
 });
 
+
+// FILTER BY RATING ---------------------------------------------------------------------------------------------------------
+app.get('/filterrat', async (req, res) => { 
+  const mpaa_rating = req.query.mpaa_rating;
+  try {
+    let result;
+    if (mpaa_rating === 'all') {
+      result = await knex('movie_info').select('*');
+    } else {
+      result = await knex('movie_info')
+        .select('*')
+        .where('mpaa_rating', '=', mpaa_rating);
+    }
+    
+    console.log(result); // Log the result to inspect it
+    res.render('movies', { movie_info: result });
+  } catch (err) {
+    console.error('Error executing query', err.stack);
+    res.status(500).send('Server Error');
+  }
+});
+
+
+
+
 // Start the server
 app.listen(PORT, () => {
     console.log(process.env.RDS_HOSTNAME)
